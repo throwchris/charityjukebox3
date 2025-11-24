@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Charity JukeBox</title>
+  <link rel="icon" href="jukebox.png" type="image/png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet"href="https://fonts.googleapis.com/css?family=Allerta+Stencil">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia&effect=fire">
+<script src="https://kit.fontawesome.com/d1a6249b79.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <style>
+
+#songImageModal {
+  scroll-behavior: smooth;
+}
+
+ 
+
+    .w3-allerta {
+  font-family: "Allerta Stencil", Sans-serif;
+    }
+
+     /* Optional: Adding extra styling for a fixed navbar */
+     .w3-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000; /* Keeps navbar above other content */
+    }
+
+    body {
+      margin-top: 60px; /* Adjust according to navbar height */
+    }
+    
+  /* Fix for song buttons turning white on hover */
+  .w3-aqua.w3-hover-none:hover {
+    background-color: #07f3ff !important; /* Aqua color */
+    color: inherit !important;
+    box-shadow: none !important;
+    cursor: pointer;
+  }
+
+  .w3-green.w3-hover-none:hover {
+    background-color: #4CAF50 !important; /* Green color */
+    color: inherit !important;
+    box-shadow: none !important;
+    cursor: pointer;
+  }
+
+  body {
+  padding-bottom: 40px;
+}
+  </style>
+</head>
+<body class="w3-grey">
+   
+    <nav class="w3-padding w3-center w3-black w3-top">
+   
+      <i class='fas fa-music w3-text-red font-effect-fire' style='font-size:32px'></i>
+      <span class=" w3-hover-none w3-hover-text-pink w3-button w3-xlarge w3-center w3-text-pink ">Charity JukeBox2</span>
+      <i class='fas fa-random  w3-text-red font-effect-fire' style='font-size:32px' onclick="event.preventDefault(); startShuffle()"></i>
+        
+        
+   
+</nav>
+
+</div>
+
+      
+      
+      
+  <div class="w3-container w3-padding-16 w3-center">
+    <div class="w3-row-padding w3-center">
+      
+      
+      <script>
+        let currentlyPlaying = null;
+        let currentButton = null;
+
+      
+        function playSong(index) {
+
+// If in Share Mode → copy link instead of playing
+if (shareMode) {
+  createShareLink(index);
+  toggleShareMode(); // turn sharing back off
+  return;
+}
+
+// Normal play logic
+if (currentButton) {
+  currentButton.classList.remove('w3-green');
+  currentButton.classList.add('w3-aqua');
+}
+
+stopCurrent();
+
+const audio = document.getElementById(`audio${index}`);
+const button = document.getElementById(`btn${index}`);
+if (audio) {
+  audio.play();
+  currentlyPlaying = audio;
+  currentButton = button;
+
+  button.classList.remove('w3-aqua');
+  button.classList.add('w3-green');
+
+  document.getElementById("globalToggle").textContent = "Pause";
+}
+}
+
+
+
+
+        function togglePlayPause() {
+          if (currentlyPlaying) {
+            if (currentlyPlaying.paused) {
+              currentlyPlaying.play();
+              document.getElementById("globalToggle").textContent = "Pause";
+            } else {
+              currentlyPlaying.pause();
+              document.getElementById("globalToggle").textContent = "Play";
+            }
+          }
+        }
+
+        function stopCurrent() {
+  if (currentlyPlaying) {
+    currentlyPlaying.pause();
+    currentlyPlaying.currentTime = 0;
+  }
+  if (currentButton) {
+    currentButton.classList.remove('w3-green');
+    currentButton.classList.add('w3-aqua');
+  }
+  currentlyPlaying = null;
+  currentButton = null;
+  document.getElementById("globalToggle").textContent = "Play";
+
+  // Hide the modal when stopping
+  document.getElementById('songImageModal').style.display = 'none';
+}
+
+
+        const songNames = [
+        "1. A Time For Peace Reggae",
+  "2. Boundless-hearts",
+  "3. Charity On The Phone. Boy's",
+  "4. Charity On The Phone. Girl's",
+  "5. Charity Shines",
+  "6. Charity-1",
+  "7. Charity-2",
+  "8. Charity's-embrace",
+  "9. Divine Love Not Left Alone",
+  "10. Embossed_In_Red",
+  "11. Endureth-The Oak In The Meadow_v.1",
+  "12. Envieth Not-Flight of Love",
+  "13. Extinguish The Fire",
+  "14. Finished In The Father & Jesus",
+  "15. Finished In The Holy Ghost & Rose",
+  "16. Have Oil, Dear Woman",
+  "17. HE_LIVES_IN_ME",
+  "18. Heart of Charity",
+  "19. RED_LETTER-1",
+  "20. I Am Yielded",
+  "21. Jesus' Prayer For Us",
+  "22. JOHN_17",
+  "23. Little-Church",
+  "24. love-in-action",
+  "25. Mana_o_-l_o",
+  "26. My-Brother",
+  "27. O-Fire-Within-Me-Burn",
+  "28. The-Big-Parade",
+  "29. The-Kindness-of-Charity",
+  "30. The-Mother",
+  "31. The-Oak-in-the-Meadow-4",
+  "32. TheWaa",
+  "33. This-Man-Went-Home-Justified-1",
+  "34. Trail-Boss-Bud",
+  "35. We-Bare-All-Things-Scottish-Jig",
+  "36. Abba, Father My Love Cries Out to You",
+  "37. All of Christ (ballad)",
+  "38. All of Christ (upbeat)",
+  "39. At Charity Theatre Tonite",
+  "40. Ballad of Bud Batton",
+  "41. BLOOD_ON_THE_STONES",
+  "42. Charity Attributes_Man",
+  "43. Charity Wins-Final",
+  "44. I_Believe",
+  "45. Pure Waters",
+  "46. Red, Blood Red",
+  "47. Rose's Teachings 8",
+  "48. Satisified",
+  "49. Similes Song_Lady",
+  "50. Stand Strong Together",
+  "51. Tapestry of Charity 2",
+  "52. The-sure-hope-of-his-promises",
+  "53. the-wal-crew-maybe",
+  "54. You're My Everything_MAN",
+  "55. You're My Everything_WOMAN",
+  "56. Rock of Ages",
+  "57. Fulfill, Fulfill",
+  "58. Stick Together",
+  "59. It's Worth Everything",
+  "60. Victorious",
+  "61. Enduring Mercy",
+  "62. He Says It, It's True: Quick",
+  "63. He Says It, It's True: Ballad",
+  "64. He Says It, It's True: Comtemporary",
+  "65. He Says It, It's True: Pop",
+  "66. God Our Father",
+  "67. Break the Chains",
+  "68. By the Spirit We Are One",
+  "69. Our Hearts Did Burn",
+  "70. This is Our Time",
+  "71. The Father Cried",
+  "72. A Church for the Sons",
+  "73. Full of Light",
+  "74. All the Action"
+       
+  
+
+
+
+  
+
+  
+
+];
+
+// Mapping of song indexes to their PNG image filenames (only for songs with images)
+const songImages = {
+  17: "hlim.png",
+  1: "song1.png",
+  2: "song2.png",
+  18:"budbatton.jpg",
+  // ... add all song image file names here, key = song index
+  // Example:
+  // 3: "charity_boys.png",
+  // 4: "charity_girls.png",
+  // 5: "charity_shines.png",
+  // ...
+};
+
+function showSongImageModal(index) {
+  const modal = document.getElementById('songImageModal');
+  const img = document.getElementById('modalSongImage');
+  const title = document.getElementById('modalSongTitle');
+
+  if (songImages[index]) {
+    img.src = songImages[index];
+    img.alt = songNames[index - 1];  // songNames is your array
+    title.textContent = songNames[index - 1];
+    modal.style.display = 'block';
+  } else {
+    // No image for this song, hide modal if open
+    modal.style.display = 'none';
+  }
+}
+
+function closeSongImageModal() {
+  const modal = document.getElementById('songImageModal');
+  modal.style.display = 'none';
+
+  // Stop the currently playing song and reset
+  if (currentlyPlaying) {
+    currentlyPlaying.pause();
+    currentlyPlaying.currentTime = 0;
+
+    if (currentButton) {
+      currentButton.classList.remove('w3-green');
+      currentButton.classList.add('w3-aqua');
+      currentButton = null;
+    }
+
+    currentlyPlaying = null;
+    document.getElementById("globalToggle").textContent = "Play";
+  }
+}
+
+for (let i = 0; i < songNames.length; i++) {
+  const index = i + 1;
+  document.write(`
+    <div class='w3-col s12 m4 l3 w3-margin-bottom'>
+      <button class='w3-button w3-round w3-aqua w3-block w3-hover-none' id='btn${index}' onclick='playSong(${index})'>${songNames[i]}</button>
+      <audio id='audio${index}' src='audio/song${index}.mp3'></audio>
+    </div>
+  `);
+}
+
+
+
+let shuffleOrder = [];
+let shuffleIndex = 0;
+let isShuffling = false;
+
+function startShuffle() {
+  shuffleOrder = [];
+  for (let i = 1; i <= songNames.length; i++) {
+    shuffleOrder.push(i);
+  }
+  // Shuffle the array
+  shuffleOrder.sort(() => Math.random() - 0.5);
+  shuffleIndex = 0;
+  isShuffling = true;
+  playShuffleSong();
+}
+
+function playShuffleSong() {
+  if (shuffleIndex < shuffleOrder.length) {
+    const nextSong = shuffleOrder[shuffleIndex];
+    playSong(nextSong);
+    shuffleIndex++;
+  } else {
+    // Finished shuffle
+    isShuffling = false;
+    if (currentButton) {
+  currentButton.classList.remove('w3-green');
+  currentButton.classList.add('w3-amber');
+}
+currentlyPlaying = null;
+currentButton = null;
+document.getElementById("globalToggle").textContent = "Play";
+
+  }
+}
+
+// Modify event listener to check for shuffle mode
+for (let i = 1; i <= songNames.length; i++) {
+  const currentAudio = document.getElementById(`audio${i}`);
+  if (currentAudio) {
+    currentAudio.addEventListener('ended', function() {
+      closeSongImageModal();  // hide modal when song ends
+
+      if (isShuffling) {
+        playShuffleSong();
+      } else {
+        const nextIndex = parseInt(this.id.replace('audio', '')) + 1;
+        if (nextIndex <= songNames.length) {
+          playSong(nextIndex);
+        } else {
+          if (currentButton) {
+            currentButton.classList.remove('w3-green');
+            currentButton.classList.add('w3-amber');
+          }
+          currentlyPlaying = null;
+          currentButton = null;
+          document.getElementById("globalToggle").textContent = "Play";
+        }
+      }
+    });
+  }
+}
+// Share mode flag
+let shareMode = false;
+
+// Toggle Share Mode
+function toggleShareMode() {
+  shareMode = !shareMode;
+  const btn = document.getElementById('shareToggle');
+
+  if (shareMode) {
+    btn.textContent = "Share: ON (click a song)";
+    btn.classList.add("w3-amber");
+  } else {
+    btn.textContent = "Share";
+    btn.classList.remove("w3-amber");
+  }
+}
+
+// Create share link and copy to clipboard
+function createShareLink(index) {
+  const baseUrl = window.location.origin + window.location.pathname;
+  const shareUrl = `${baseUrl}?song=${index}`;
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(shareUrl)
+      .then(() => {
+        alert("Share link copied:\n" + shareUrl);
+      })
+      .catch(() => {
+        fallbackSharePrompt(shareUrl);
+      });
+  } else {
+    fallbackSharePrompt(shareUrl);
+  }
+}
+
+// Fallback prompt if clipboard API unavailable
+function fallbackSharePrompt(url) {
+  prompt("Copy this link:", url);
+}
+
+// Auto-play if URL contains ?song=##
+document.addEventListener("DOMContentLoaded", function () {
+  const params = new URLSearchParams(window.location.search);
+  const songParam = params.get("song");
+
+  if (songParam) {
+    const index = parseInt(songParam, 10);
+    if (!isNaN(index)) {
+      playSong(index);
+
+      const btn = document.getElementById(`btn${index}`);
+      if (btn) {
+        btn.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }
+  }
+});
+
+
+
+
+
+
+      </script>
+    </div>
+  </div>
+
+  <footer class="w3-padding w3-center w3-black w3-bottom">  
+    <button class="w3-bar-item w3-button w3-text-red w3-hover-none w3-hover-text-red w3-left-align" 
+        onclick="toggleShareMode()" 
+        id="shareToggle">
+  Share
+</button>
+
+    
+    <button class="w3-bar-item w3-button w3-text-red w3-hover-none w3-hover-text-red w3-left-align" onclick="togglePlayPause()" id="globalToggle">Pause</button>
+    <button class="w3-bar-item w3-button w3-text-red w3-hover-none w3-hover-text-red w3-left-align" onclick="stopCurrent()">Stop</button>
+    <a href="/charity/index.html" class='w3-text-pink w3-right-align w3-large'> Charity Definitions</a>
+  </footer>
+  <!-- Generic modal for song images -->
+  <div id="songImageModal" class="w3-container" style="display:none; position:fixed; top:60px; bottom:60px; left:0; right:0; z-index:1001; overflow:auto;">
+    <div class="w3-card-4 w3-white w3-animate-opacity" style="max-width:600px; width:90%; margin:auto; margin-top:20px; margin-bottom:20px; position:relative;">
+      
+      <header class="w3-container w3-teal" style="position:relative;">
+        <button onclick="closeSongImageModal()" class="w3-button w3-teal" style="position:absolute; top:8px; right:8px;">&times;</button>
+        <h3 id="modalSongTitle" class="w3-center w3-margin-top w3-margin-bottom">Song Title</h3>
+      </header>
+  
+      <div class="w3-container" style="overflow:auto; max-height:calc(100vh - 180px);">
+        <img id="modalSongImage" src="" alt="" class="w3-image" style="width:100%; object-fit:contain;">
+      </div>
+  
+    </div>
+  </div>
+  
+  
+
+</body>
+</html>
