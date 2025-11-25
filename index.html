@@ -369,13 +369,16 @@ function toggleShareMode() {
   if (shareMode) {
     btn.textContent = "Share: ON (click a song)";
     btn.classList.add("w3-amber");
-     btn.classList.add("w3-text-aqua"); // 🔹 TEXT COLOR AQUA
+    btn.classList.add("blink-share");
+    btn.classList.add("share-aqua");   // 🔥 Force aqua text
   } else {
     btn.textContent = "Share";
     btn.classList.remove("w3-amber");
-    btn.classList.remove("w3-text-aqua"); // 🔹 REMOVE AQUA
+    btn.classList.remove("blink-share");
+    btn.classList.remove("share-aqua"); // 🔥 Remove aqua
   }
 }
+
 
 // Create share link and copy to clipboard
 function createShareLink(index) {
@@ -496,6 +499,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </body>
 </html>
+
 
 
 
