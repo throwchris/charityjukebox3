@@ -371,26 +371,25 @@ function toggleShareMode() {
   if (shareMode) {
     btn.textContent = "Share: ON (click a song)";
 
-    // remove red text
-    btn.classList.remove("w3-text-red");
-    btn.classList.remove("w3-hover-text-red");
+    // remove any old styles
+    btn.classList.remove("w3-amber");
+    btn.classList.remove("w3-text-aqua");
 
-    // add aqua text + amber background
-    btn.classList.add("w3-text-aqua");
-    btn.classList.add("w3-amber");
+    // force all red
+    btn.classList.add("w3-text-red");
 
   } else {
     btn.textContent = "Share";
 
-    // remove aqua + amber
-    btn.classList.remove("w3-text-aqua");
+    // remove anything added
     btn.classList.remove("w3-amber");
+    btn.classList.remove("w3-text-aqua");
 
-    // restore red color
+    // stay red
     btn.classList.add("w3-text-red");
-    btn.classList.add("w3-hover-text-red");
   }
 }
+
 
 
 
@@ -482,7 +481,7 @@ document.addEventListener("DOMContentLoaded", function () {
   </div>
 
   <footer class="w3-padding w3-center w3-black w3-bottom">  
-    <button class="w3-bar-item w3-button w3-text-red w3-hover-none w3-hover-text-red w3-left-align" 
+    <button class="w3-bar-item w3-button w3-text-red w3-hover-none w3-hover-none w3-left-align" 
         onclick="toggleShareMode()" 
         id="shareToggle">
   Share
@@ -513,6 +512,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </body>
 </html>
+
 
 
 
