@@ -375,23 +375,33 @@ function toggleShareMode() {
 }
 
 // Create share link and copy to clipboard
+// Create share link and copy to clipboard
 function createShareLink(index) {
-  // Get current folder URL (without index.html)
-  let baseUrl = window.location.href.replace(/index\.html$/i, '');
+  // Example URLs this will handle:
+  // https://username.github.io/repo/
+  // https://username.github.io/repo/index.html
+  // https://username.github.io/repo
+  const full = window.location.href;
 
-  // Build path to the single-song page
-  const shareUrl = `${baseUrl}song-pages/song${index}.html`;
+  // Get the folder path that contains index.html
+  const lastSlash = full.lastIndexOf('/');
+  const folderUrl = full.substring(0, lastSlash + 1);  // always ends with "/"
 
-  navigator.clipboard.writeText(shareUrl)
-    .then(() => alert("Share link copied:\n" + shareUrl))
-    .catch(() => prompt("Copy this link:", shareUrl));
+  // Build URL to the single-song page
+  // e.g. https://username.github.io/repo/song-pages/song1.html
+  const shareUrl = `${folderUrl}song-pages/song${index}.html`;
+
+  console.log("Share URL:", shareUrl); // <-- helps debug in browser console
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(shareUrl)
+      .then(() => alert("Share link copied:\n" + shareUrl))
+      .catch(() => prompt("Copy this link:", shareUrl));
+  } else {
+    prompt("Copy this link:", shareUrl);
+  }
 }
 
-
-// Fallback prompt if clipboard API unavailable
-function fallbackSharePrompt(url) {
-  prompt("Copy this link:", url);
-}
 
 // Auto-play if URL contains ?song=##
 document.addEventListener("DOMContentLoaded", function () {
@@ -452,6 +462,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </body>
 </html>
+
 
 
 
