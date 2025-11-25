@@ -385,22 +385,45 @@ function createShareLink(index) {
   // Build single song URL
   const shareUrl = `${folderUrl}song-pages/song${index}.html`;
 
+  // Get the song title from your songNames array (index is 1-based)
+  const songTitle = songNames[index - 1] || "Charity JukeBox song";
+
   console.log("Share URL:", shareUrl);
 
-  // Copy to clipboard (if supported)
+  // 🔹 1) Best case: use the native share sheet (mobile browsers)
+  if (navigator.share) {
+    navigator.share({
+      title: songTitle,
+      text: `Listen to this song from Charity JukeBox:\n${songTitle}`,
+      url: shareUrl
+    }).catch(err => {
+      // User cancelled or share not available; fall back to clipboard
+      console.log("Share cancelled or failed:", err);
+      fallbackShare(shareUrl);
+    });
+    return;
+  }
+
+  // 🔹 2) Fallback to clipboard / manual copy on devices without navigator.share
+  fallbackShare(shareUrl);
+}
+
+// Fallback: clipboard / prompt + optional navigation
+function fallbackShare(shareUrl) {
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(shareUrl)
       .then(() => {
         alert("Share link copied:\n" + shareUrl);
-        window.location.href = shareUrl; // open the song page
+        // If you still want to auto-open the page after copying, uncomment:
+        // window.location.href = shareUrl;
       })
       .catch(() => {
         prompt("Copy this link:", shareUrl);
-        window.location.href = shareUrl;
+        // window.location.href = shareUrl; // optional
       });
   } else {
     prompt("Copy this link:", shareUrl);
-    window.location.href = shareUrl;
+    // window.location.href = shareUrl; // optional
   }
 }
 
@@ -469,3 +492,4 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </body>
 </html>
+
