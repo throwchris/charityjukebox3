@@ -85,34 +85,33 @@
 
       
         function playSong(index) {
+  // 🔹 If Share Mode is ON, share the song link instead of playing
+  if (shareMode) {
+    createShareLink(index);
+    toggleShareMode(); // turn Share off after one use
+    return;
+  }
 
-// If in Share Mode → copy link instead of playing
-if (shareMode) {
-  createShareLink(index);
-  toggleShareMode(); // turn sharing back off
-  return;
-}
+  // 🔹 Normal play logic
+  if (currentButton) {
+    currentButton.classList.remove('w3-green');
+    currentButton.classList.add('w3-aqua');
+  }
 
-// Normal play logic
-if (currentButton) {
-  currentButton.classList.remove('w3-green');
-  currentButton.classList.add('w3-aqua');
-}
+  stopCurrent();
 
-stopCurrent();
+  const audio = document.getElementById(`audio${index}`);
+  const button = document.getElementById(`btn${index}`);
+  if (audio) {
+    audio.play();
+    currentlyPlaying = audio;
+    currentButton = button;
 
-const audio = document.getElementById(`audio${index}`);
-const button = document.getElementById(`btn${index}`);
-if (audio) {
-  audio.play();
-  currentlyPlaying = audio;
-  currentButton = button;
+    button.classList.remove('w3-aqua');
+    button.classList.add('w3-green');
 
-  button.classList.remove('w3-aqua');
-  button.classList.add('w3-green');
-
-  document.getElementById("globalToggle").textContent = "Pause";
-}
+    document.getElementById("globalToggle").textContent = "Pause";
+  }
 }
 
 
@@ -375,31 +374,55 @@ function toggleShareMode() {
 }
 
 // Create share link and copy to clipboard
-// Create share link and copy to clipboard
 function createShareLink(index) {
-  // Example URLs this will handle:
-  // http://127.0.0.1:5500/index.html
-  // http://127.0.0.1:5500/
+  // Get full current URL
   const full = window.location.href;
 
-  // Get the folder URL (up to last /), always ending with "/"
+  // Get folder URL (everything up to and including the last "/")
   const lastSlash = full.lastIndexOf('/');
   const folderUrl = full.substring(0, lastSlash + 1);
 
-  // Build URL to the single-song page
-  // e.g. http://127.0.0.1:5500/song-pages/song1.html
+  // Build single song URL
   const shareUrl = `${folderUrl}song-pages/song${index}.html`;
 
-  console.log("Share URL:", shareUrl);  // ← for testing
+  console.log("Share URL:", shareUrl);
 
+  // Copy to clipboard (if supported)
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(shareUrl)
-      .then(() => alert("Share link copied:\n" + shareUrl))
-      .catch(() => prompt("Copy this link:", shareUrl));
+      .then(() => {
+        alert("Share link copied:\n" + shareUrl);
+        window.location.href = shareUrl; // open the song page
+      })
+      .catch(() => {
+        prompt("Copy this link:", shareUrl);
+        window.location.href = shareUrl;
+      });
   } else {
     prompt("Copy this link:", shareUrl);
+    window.location.href = shareUrl;
   }
 }
+
+
+
+// Auto-play if URL contains ?song=##
+document.addEventListener("DOMContentLoaded", function () {
+  const params = new URLSearchParams(window.location.search);
+  const songParam = params.get("song");
+
+  if (songParam) {
+    const index = parseInt(songParam, 10);
+    if (!isNaN(index)) {
+      playSong(index);
+
+      const btn = document.getElementById(`btn${index}`);
+      if (btn) {
+        btn.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }
+  }
+});
 
 
 
@@ -446,4 +469,3 @@ function createShareLink(index) {
 
 </body>
 </html>
-
