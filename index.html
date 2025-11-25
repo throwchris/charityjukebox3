@@ -376,8 +376,14 @@ function toggleShareMode() {
 
 // Create share link and copy to clipboard
 function createShareLink(index) {
-  const baseUrl = window.location.origin + window.location.pathname;
-  const shareUrl = `${baseUrl}?song=${index}`;
+  // baseUrl will be something like: https://yourdomain.com/charityjukebox2/
+  let baseUrl = window.location.origin + window.location.pathname;
+
+  // If URL ends in index.html, strip it off
+  baseUrl = baseUrl.replace(/index\.html$/i, '');
+
+  // Build link to the single-song page
+  const shareUrl = `${baseUrl}song-pages/song${index}.html`;
 
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(shareUrl)
@@ -456,4 +462,5 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </body>
 </html>
+
 
