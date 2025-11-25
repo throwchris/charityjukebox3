@@ -376,27 +376,17 @@ function toggleShareMode() {
 
 // Create share link and copy to clipboard
 function createShareLink(index) {
-  // baseUrl will be something like: https://yourdomain.com/charityjukebox2/
-  let baseUrl = window.location.origin + window.location.pathname;
+  // Get current folder URL (without index.html)
+  let baseUrl = window.location.href.replace(/index\.html$/i, '');
 
-  // If URL ends in index.html, strip it off
-  baseUrl = baseUrl.replace(/index\.html$/i, '');
-
-  // Build link to the single-song page
+  // Build path to the single-song page
   const shareUrl = `${baseUrl}song-pages/song${index}.html`;
 
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(shareUrl)
-      .then(() => {
-        alert("Share link copied:\n" + shareUrl);
-      })
-      .catch(() => {
-        fallbackSharePrompt(shareUrl);
-      });
-  } else {
-    fallbackSharePrompt(shareUrl);
-  }
+  navigator.clipboard.writeText(shareUrl)
+    .then(() => alert("Share link copied:\n" + shareUrl))
+    .catch(() => prompt("Copy this link:", shareUrl));
 }
+
 
 // Fallback prompt if clipboard API unavailable
 function fallbackSharePrompt(url) {
@@ -462,5 +452,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </body>
 </html>
+
 
 
