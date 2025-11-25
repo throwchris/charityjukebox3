@@ -375,6 +375,7 @@ function toggleShareMode() {
 }
 
 // Create share link and copy to clipboard
+// Create share link and copy to clipboard
 function createShareLink(index) {
   // Example URLs this will handle:
   // http://127.0.0.1:5500/index.html
@@ -389,11 +390,7 @@ function createShareLink(index) {
   // e.g. http://127.0.0.1:5500/song-pages/song1.html
   const shareUrl = `${folderUrl}song-pages/song${index}.html`;
 
-  // 🔍 LOG IT so you see it in the Console
-  console.log("Share URL:", shareUrl);
-
-  // 🧪 For testing: also open it in a new tab
-  window.open(shareUrl, '_blank');
+  console.log("Share URL:", shareUrl);  // ← for testing
 
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(shareUrl)
@@ -404,25 +401,6 @@ function createShareLink(index) {
   }
 }
 
-
-// Auto-play if URL contains ?song=##
-document.addEventListener("DOMContentLoaded", function () {
-  const params = new URLSearchParams(window.location.search);
-  const songParam = params.get("song");
-
-  if (songParam) {
-    const index = parseInt(songParam, 10);
-    if (!isNaN(index)) {
-      playSong(index);
-
-      const btn = document.getElementById(`btn${index}`);
-      if (btn) {
-        btn.scrollIntoView({ behavior: "smooth", block: "center" });
-      }
-    }
-  }
-});
-const shareUrl = `${baseUrl}?song=${index}`;
 
 
 
@@ -468,3 +446,4 @@ const shareUrl = `${baseUrl}?song=${index}`;
 
 </body>
 </html>
+
