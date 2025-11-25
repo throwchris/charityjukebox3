@@ -57,6 +57,14 @@
   padding-bottom: 40px;
 }
     .share-aqua { color: #00ffff !important; }
+    
+    @keyframes blinkShare {
+  50% { opacity: 0.3; }
+}
+
+.blink-share {
+  animation: blinkShare 0.8s infinite;
+}
 
   </style>
 </head>
@@ -368,16 +376,29 @@ function toggleShareMode() {
 
   if (shareMode) {
     btn.textContent = "Share: ON (click a song)";
+
+    // remove red text + red hover
+    btn.classList.remove("w3-text-red");
+    btn.classList.remove("w3-hover-text-red");
+
+    // add aqua text + blink + amber background
+    btn.classList.add("w3-text-aqua");
     btn.classList.add("w3-amber");
     btn.classList.add("blink-share");
-    btn.classList.add("share-aqua");   // 🔥 Force aqua text
   } else {
     btn.textContent = "Share";
+
+    // remove aqua + blink + amber
+    btn.classList.remove("w3-text-aqua");
     btn.classList.remove("w3-amber");
     btn.classList.remove("blink-share");
-    btn.classList.remove("share-aqua"); // 🔥 Remove aqua
+
+    // put red back
+    btn.classList.add("w3-text-red");
+    btn.classList.add("w3-hover-text-red");
   }
 }
+
 
 
 // Create share link and copy to clipboard
@@ -499,6 +520,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </body>
 </html>
+
 
 
 
