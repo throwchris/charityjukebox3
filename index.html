@@ -367,9 +367,11 @@ function toggleShareMode() {
   if (shareMode) {
     btn.textContent = "Share: ON (click a song)";
     btn.classList.add("w3-amber");
+     btn.classList.add("w3-text-aqua"); // 🔹 TEXT COLOR AQUA
   } else {
     btn.textContent = "Share";
     btn.classList.remove("w3-amber");
+    btn.classList.remove("w3-text-aqua"); // 🔹 REMOVE AQUA
   }
 }
 
@@ -492,6 +494,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </body>
 </html>
+
 
 
 
