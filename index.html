@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Charity JukeBox</title>
+  <title>Charity JukeBox3</title>
   <link rel="icon" href="jukebox.png" type="image/png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
@@ -63,7 +63,7 @@
     <nav class="w3-padding w3-center w3-black w3-top">
    
       <i class='fas fa-music w3-text-red font-effect-fire' style='font-size:32px'></i>
-      <span class=" w3-hover-none w3-hover-text-pink w3-button w3-xlarge w3-center w3-text-pink ">Charity JukeBox3</span>
+      <span class=" w3-hover-none w3-hover-text-pink w3-button w3-xlarge w3-center w3-text-pink ">Charity JukeBox2</span>
       <i class='fas fa-random  w3-text-red font-effect-fire' style='font-size:32px' onclick="event.preventDefault(); startShuffle()"></i>
         
         
@@ -375,23 +375,25 @@ function toggleShareMode() {
 }
 
 // Create share link and copy to clipboard
-// Create share link and copy to clipboard
 function createShareLink(index) {
   // Example URLs this will handle:
-  // https://username.github.io/repo/
-  // https://username.github.io/repo/index.html
-  // https://username.github.io/repo
+  // http://127.0.0.1:5500/index.html
+  // http://127.0.0.1:5500/
   const full = window.location.href;
 
-  // Get the folder path that contains index.html
+  // Get the folder URL (up to last /), always ending with "/"
   const lastSlash = full.lastIndexOf('/');
-  const folderUrl = full.substring(0, lastSlash + 1);  // always ends with "/"
+  const folderUrl = full.substring(0, lastSlash + 1);
 
   // Build URL to the single-song page
-  // e.g. https://username.github.io/repo/song-pages/song1.html
+  // e.g. http://127.0.0.1:5500/song-pages/song1.html
   const shareUrl = `${folderUrl}song-pages/song${index}.html`;
 
-  console.log("Share URL:", shareUrl); // <-- helps debug in browser console
+  // 🔍 LOG IT so you see it in the Console
+  console.log("Share URL:", shareUrl);
+
+  // 🧪 For testing: also open it in a new tab
+  window.open(shareUrl, '_blank');
 
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(shareUrl)
@@ -420,6 +422,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 });
+const shareUrl = `${baseUrl}?song=${index}`;
+
+
+
 
 
 
@@ -462,7 +468,3 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </body>
 </html>
-
-
-
-
