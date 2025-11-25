@@ -370,12 +370,28 @@ function toggleShareMode() {
 
   if (shareMode) {
     btn.textContent = "Share: ON (click a song)";
+
+    // remove red text
+    btn.classList.remove("w3-text-red");
+    btn.classList.remove("w3-hover-text-red");
+
+    // add aqua text + amber background
+    btn.classList.add("w3-text-aqua");
     btn.classList.add("w3-amber");
+
   } else {
     btn.textContent = "Share";
+
+    // remove aqua + amber
+    btn.classList.remove("w3-text-aqua");
     btn.classList.remove("w3-amber");
+
+    // restore red color
+    btn.classList.add("w3-text-red");
+    btn.classList.add("w3-hover-text-red");
   }
 }
+
 
 
 // Create share link and copy to clipboard
@@ -497,6 +513,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </body>
 </html>
+
 
 
 
